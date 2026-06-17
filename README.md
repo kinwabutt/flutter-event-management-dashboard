@@ -1,16 +1,30 @@
-# vixact_assessment
+Flutter Event Management Dashboard
+A modern, responsive Event Management Dashboard built with Flutter. This application allows users to manage event collections, track vendor payments, and view real-time analytics.
 
-A new Flutter project.
+🚀 Key Features
+State Management: Built using Riverpod for reactive and scalable state handling.
 
-## Getting Started
+Data Modeling: Utilized Freezed for immutable data models and JSON serialization.
 
-This project is a starting point for a Flutter application.
+Navigation: Seamless routing implemented with GoRouter.
 
-A few resources to get you started if this is your first Flutter project:
+Modern UI: Polished dashboard interface with custom gradients, interactive tabs, and beautiful animations.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Responsive Design: Optimized for a smooth experience across different screen sizes.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🛠 Tech Stack
+Framework: Flutter
+
+Language: Dart
+
+Architecture: Clean Architecture patterns
+
+Libraries Used:
+
+flutter_riverpod (State Management)
+
+freezed & json_serializable (Data Layer)
+
+go_router (Navigation)
+
+intl (Currency Formatting
