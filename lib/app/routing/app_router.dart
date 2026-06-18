@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart'; // Isko import karein
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/event_detail/presentation/event_detail_screen.dart';
+// 1. Nayi screen ka import add karein:
+import '../../features/event_detail/presentation/event_list_screen.dart';
 import '../../features/dashboard/data/dashboard_model.dart';
 
-// Yeh line build_runner ke liye zaroori hai
 part 'app_router.g.dart';
 
 @riverpod
@@ -16,6 +17,11 @@ GoRouter appRouter(AppRouterRef ref) {
       GoRoute(
         path: '/',
         builder: (context, state) =>  DashboardScreen(),
+      ),
+      // 2. Naya route yahan add karein:
+      GoRoute(
+        path: '/events',
+        builder: (context, state) => const EventListScreen(),
       ),
       GoRoute(
         path: '/event-detail',

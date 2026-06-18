@@ -27,25 +27,22 @@ final dashboardRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DashboardRepositoryRef = AutoDisposeProviderRef<DashboardRepository>;
-String _$fetchEventsHash() => r'7c2adcbd62643aa09fc71cb36be4be4f482acf92';
+String _$fetchEventsHash() => r'31166e41afa51d8345c06d651153884648ccadb1';
 
-/// 2. FutureProvider for Active Events
-///
-/// Copied from [fetchEvents].
+/// See also [fetchEvents].
 @ProviderFor(fetchEvents)
-final fetchEventsProvider =
-    AutoDisposeFutureProvider<List<EventModel>>.internal(
-      fetchEvents,
-      name: r'fetchEventsProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$fetchEventsHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final fetchEventsProvider = FutureProvider<List<EventModel>>.internal(
+  fetchEvents,
+  name: r'fetchEventsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$fetchEventsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef FetchEventsRef = AutoDisposeFutureProviderRef<List<EventModel>>;
+typedef FetchEventsRef = FutureProviderRef<List<EventModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

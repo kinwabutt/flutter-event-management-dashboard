@@ -14,9 +14,7 @@ final currentPageProvider = StateProvider<int>((ref) => 0);
 DashboardRepository dashboardRepository(DashboardRepositoryRef ref) {
   return DashboardRepository(Dio());
 }
-
-/// 2. FutureProvider for Active Events
-@riverpod
+@Riverpod(keepAlive: true) 
 Future<List<EventModel>> fetchEvents(FetchEventsRef ref) async {
   final repo = ref.watch(dashboardRepositoryProvider);
   return await repo.fetchActiveEvents();

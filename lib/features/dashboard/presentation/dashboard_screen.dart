@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../data/dashboard_provider.dart';
 import 'widgets/event_card.dart';
@@ -12,13 +13,13 @@ class DashboardScreen extends ConsumerWidget {
    DashboardScreen({super.key});
 
   final NumberFormat _currencyFormatter = NumberFormat.currency(locale: 'en_IN', symbol: '₹', decimalDigits: 0);
-
+// final
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeEventsAsync = ref.watch(fetchEventsProvider);
     final currentPage = ref.watch(currentPageProvider);
     final bottomNavIndex = ref.watch(bottomNavIndexProvider);
-
+    final PageController _pageController = PageController(viewportFraction: 0.85);
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
@@ -66,23 +67,35 @@ class DashboardScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('ACTIVE EVENTS', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: Colors.black)),
-                      TextButton(onPressed: () {}, style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: Size.zero, tapTargetSize: MaterialTapTargetSize.shrinkWrap), child: const Text('View All >', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 11))),
+TextButton(
+  onPressed: () {
+   
+    context.push('/events', extra: events); 
+  }, 
+  style: TextButton.styleFrom(
+    padding: EdgeInsets.zero, 
+    minimumSize: Size.zero, 
+    tapTargetSize: MaterialTapTargetSize.shrinkWrap
+  ), 
+  child: const Text('View All >', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 11))
+),
                     ],
                   ),
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
-                  height: 220,
-                  child: PageView.builder(
-                    padEnds: false,
-                    itemCount: events.length,
-                    onPageChanged: (i) => ref.read(currentPageProvider.notifier).state = i,
-                    itemBuilder: (context, i) => Padding(
-                      padding: EdgeInsets.only(left: i == 0 ? 16 : 0, right: 12),
-                      child: EventCard(event: events[i], index: i),
-                    ),
-                  ),
-                ),
+  height: 250,
+  child: PageView.builder(
+    padEnds: false,
+    controller: PageController(viewportFraction: 0.70), // Cards ko compact aur "snapped" dikhane ke liye
+    itemCount: events.length,
+    onPageChanged: (i) => ref.read(currentPageProvider.notifier).state = i, // Dots animation ke liye ye zaroori hai
+    itemBuilder: (context, i) => Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8), // Card ke darmiyan gap
+      child: EventCard(event: events[i], index: i),
+    ),
+  ),
+),
                 const SizedBox(height: 12),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: List.generate(events.length, (i) => AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -123,20 +136,29 @@ class DashboardScreen extends ConsumerWidget {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFF2563EB),
-        unselectedItemColor: Colors.grey,
-        currentIndex: bottomNavIndex,
-        onTap: (i) => ref.read(bottomNavIndexProvider.notifier).state = i,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today_outlined), label: 'Events'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart_outlined), label: 'Reports'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
-        ],
-      ),
-    );
-  }
+  type: BottomNavigationBarType.fixed,
+  selectedItemColor: const Color(0xFF2563EB),
+  unselectedItemColor: Colors.grey,
+  currentIndex: bottomNavIndex,
+
+  onTap: (i) {
+    ref.read(bottomNavIndexProvider.notifier).state = i;
+    if (i == 1) {
+      context.push('/events'); 
+    } else {
+
+      ref.read(bottomNavIndexProvider.notifier).state = i;
+    }
+  },
+  items: const [
+    BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(Icons.calendar_today_outlined), label: 'Events'),
+    BottomNavigationBarItem(icon: Icon(Icons.bar_chart_outlined), label: 'Reports'),
+    BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
+  ],
+),
+);
+}
 
   Widget _buildRecentActivityList() {
     return Container(
